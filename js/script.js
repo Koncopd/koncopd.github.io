@@ -4,7 +4,7 @@
   var  vertexSource = document.getElementById('vertexShader').text,
        fragmentSource = document.getElementById('fragmentShader').text;
 
-  var cube, pyramid, pyrTexture;
+  var cube, pyramid, pyrTexture, cubeTexture;
 
   var cameraMatrix = mat4.create(), transformMatrix = mat4.create();
 
@@ -21,7 +21,8 @@
   program = initShaderProgram(gl, vertexSource, fragmentSource);
   gl.useProgram(program);
 
-  pyrTexture = initTexture(gl, './texture.jpg');
+  pyrTexture = initTexture(gl, './pyrTexture.jpg');
+  cubeTexture = initTexture(gl, './cubeTexture.gif');
 
   mat4.perspective(cameraMatrix, 0.785, canvas.width / canvas.height, 0.1, 100);
 
@@ -69,7 +70,7 @@
     gl.vertexAttribPointer(aTextureCoord, 2, gl.FLOAT, false, 0, 0)
 
     gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, pyrTexture);
+    gl.bindTexture(gl.TEXTURE_2D, cubeTexture);
     gl.uniform1i(uSampler, 0);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cube.vertexIndexBuffer);
