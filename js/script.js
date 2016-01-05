@@ -59,7 +59,7 @@
 
     gl.drawArrays(gl.TRIANGLES, 0, pyramid.numItems);
 
-    mat4.translate(transformMatrix, transformMatrix, [4, 0, 0]);
+    mat4.translate(transformMatrix, transformMatrix, [4, 0, -1]);
 
     gl.uniformMatrix4fv(uTransform, false, transformMatrix);
     gl.uniformMatrix4fv(uCamera, false, cameraMatrix);

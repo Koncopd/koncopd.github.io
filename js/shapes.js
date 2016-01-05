@@ -30,7 +30,7 @@ function getCube(gl)
         -1.0, -1.0, -1.0,
         -1.0, -1.0,  1.0,
         -1.0,  1.0,  1.0,
-        -1.0,  1.0, -1.0,
+        -1.0,  1.0, -1.0
       ],
       textureCoords = [
         // Front face
@@ -62,7 +62,7 @@ function getCube(gl)
         0.0, 0.0,
         1.0, 0.0,
         1.0, 1.0,
-        0.0, 1.0,
+        0.0, 1.0
       ],
       cubeVertexIndices = [
             0, 1, 2,      0, 2, 3,    // Front face
