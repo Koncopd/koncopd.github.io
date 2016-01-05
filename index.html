@@ -15,16 +15,32 @@
 
   <script id="vertexShader" type="x-shader/x-vertex">
     attribute vec3 a_position;
+    attribute vec3 a_normal_position;
     attribute vec2 a_texture_coord;
 
     uniform mat4 u_transform;
+    uniform mat3 u_normal_transform;
     uniform mat4 u_camera;
 
+    uniform vec3 u_ambient_color;
+    uniform vec3 u_lighting_dir;
+    uniform vec3 u_dir_color;
+    uniform bool u_use_lighting;
+
     varying vec2 v_texture_coord;
+    varying vec3 v_light_weighting;
 
     void main(void) {
       v_texture_coord = a_texture_coord;
       gl_Position = u_camera * u_transform * vec4(a_position, 1.0);
+
+      if(!u_use_lighting){
+        v_light_weighting = vec3(1.0, 1.0, 1.0);
+      } else {
+        vec3 transformed_normal = u_normal_transform * a_normal_position;
+        float dir_light_weighting = max(dot(transformed_normal, u_lighting_dir), 0.0);
+        v_light_weighting = u_ambient_color + u_dir_color * dir_light_weighting;
+      }
     }
   </script>
 
@@ -32,11 +48,13 @@
     precision mediump float;
 
     varying vec2 v_texture_coord;
+    varying vec3 v_light_weighting;
 
     uniform sampler2D u_sampler;
 
     void main(void) {
-      gl_FragColor = texture2D(u_sampler, vec2(v_texture_coord.s, v_texture_coord.t));
+      vec4 texture_color = texture2D(u_sampler, vec2(v_texture_coord.s, v_texture_coord.t));
+      gl_FragColor = vec4(texture_color.rgb * v_light_weighting, texture_color.a);
     }
   </script>
 

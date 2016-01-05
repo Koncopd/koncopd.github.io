@@ -64,6 +64,38 @@ function getCube(gl)
         1, 1,
         0, 1
       ],
+      vertexNormals = [
+        // Front face
+        0,  0,  1,
+        0,  0,  1,
+        0,  0,  1,
+        0,  0,  1,
+        // Back face
+        0,  0, -1,
+        0,  0, -1,
+        0,  0, -1,
+        0,  0, -1,
+        // Top face
+        0,  1,  0,
+        0,  1,  0,
+        0,  1,  0,
+        0,  1,  0,
+        // Bottom face
+        0, -1,  0,
+        0, -1,  0,
+        0, -1,  0,
+        0, -1,  0,
+        // Right face
+        1,  0,  0,
+        1,  0,  0,
+        1,  0,  0,
+        1,  0,  0,
+        // Left face
+        -1,  0,  0,
+        -1,  0,  0,
+        -1,  0,  0,
+        -1,  0,  0
+      ],
       cubeVertexIndices = [
             0, 1, 2,      0, 2, 3,    // Front face
             4, 5, 6,      4, 6, 7,    // Back face
@@ -78,6 +110,7 @@ function getCube(gl)
 
   cube.vertexBuffer = initArrayBuffer(gl, vertices);
   cube.textureCoordBuffer = initArrayBuffer(gl, textureCoords);
+  cube.vertexNormalBuffer = initArrayBuffer(gl, vertexNormals);
 
   cube.vertexIndexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cube.vertexIndexBuffer);
