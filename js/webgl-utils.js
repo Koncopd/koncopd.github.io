@@ -53,7 +53,6 @@ function initTexture(gl)
 {
   var texture = gl.createTexture();
   texture.image = new Image();
-
   texture.image.onload = function()
   {
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -63,7 +62,6 @@ function initTexture(gl)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
     gl.bindTexture(gl.TEXTURE_2D, null);
   }
-  
   texture.image.src = './pyramid.gif';
   return texture;
 }

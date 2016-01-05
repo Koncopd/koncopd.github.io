@@ -6,9 +6,9 @@
 
   var cube, pyramid, pyrTexture;
 
-  var cameraMatrix = mat4.create(), cubeMatrix = mat4.create();
+  var cameraMatrix = mat4.create(), transformMatrix = mat4.create();
 
-  var uTransform, uCamera, aPosition, aColor;
+  var uTransform, uCamera, uSampler, aPosition, aTextureCoord;
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -29,23 +29,31 @@
 
   uTransform = gl.getUniformLocation(program, 'u_transform');
   uCamera = gl.getUniformLocation(program, 'u_camera');
+  uSampler = gl.getUniformLocation(program, 'u_sampler');
   aPosition = gl.getAttribLocation(program, 'a_position');
-  aColor = gl.getAttribLocation(program, 'a_color');
+  aTextureCoord = gl.getAttribLocation(program, 'a_texture_coord');
 
   gl.enableVertexAttribArray(aPosition);
-  gl.enableVertexAttribArray(aColor);
+  gl.enableVertexAttribArray(aTextureCoord);
 
-  mat4.translate(cubeMatrix, cubeMatrix, [-2, 0, -7]);
+  mat4.translate(transformMatrix, transformMatrix, [-2, 0, -7]);
 
 
   (function render(){
     requestAnimationFrame(render);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    gl.uniformMatrix4fv(uTransform, false, cubeMatrix);
+    gl.uniformMatrix4fv(uTransform, false, transformMatrix);
     gl.uniformMatrix4fv(uCamera, false, cameraMatrix);
 
-    setAttributes3(gl, [aPosition, aColor], [pyramid.vertexBuffer, pyramid.colorBuffer]);
+    gl.bindBuffer(gl.ARRAY_BUFFER, pyramid.vertexBuffer);
+    gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, pyramid.textureCoordBuffer);
+    gl.vertexAttribPointer(aTextureCoord, 2, gl.FLOAT, false, 0, 0);
+
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, pyrTexture);
+    gl.uniform1i(uSampler, 0);
 
     gl.drawArrays(gl.TRIANGLES, 0, pyramid.numItems);
   })();

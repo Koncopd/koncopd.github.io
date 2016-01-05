@@ -93,29 +93,30 @@ function getPyramid(gl)
         -1, -1, -1,
         -1, -1,  1
       ],
-      colors = [
+      textureCoord = [
         // Front face
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1,
+        0, 0,
+        0.5, 0.5,
+        1, 0,
         // Right face
-        1, 0, 0,
-        0, 0, 1,
-        0, 1, 0,
+        0, 0,
+        0.5, 0.5,
+        1, 0,
         // Back face
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1,
+        0, 0,
+        0.5, 0.5,
+        1, 0,
         // Left face
-        1, 0, 0,
-        0, 0, 1,
-        0, 1, 0
+        0, 0,
+        0.5, 0.5,
+        1, 0
       ];
 
   var pyramid = {};
 
   pyramid.vertexBuffer = initArrayBuffer(gl, vertices);
-  pyramid.colorBuffer = initArrayBuffer(gl, colors);
+  pyramid.textureCoordBuffer = initArrayBuffer(gl, textureCoord);
+
   pyramid.numItems = 12
 
   return pyramid;
