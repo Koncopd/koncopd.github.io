@@ -83,7 +83,7 @@ function getCube(gl)
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cube.vertexIndexBuffer);
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cubeVertexIndices), gl.STATIC_DRAW);
 
-  cube.numItems = 24;
+  cube.numItems = 36;
 
   return cube;
 }
