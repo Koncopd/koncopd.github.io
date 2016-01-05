@@ -6,7 +6,9 @@
 
   var cube, pyramid, pyrTexture, cubeTexture;
 
-  var cameraMatrix = mat4.create(), transformMatrix = mat4.create();
+  var cameraMatrix = mat4.create(), transformMatrix = mat4.create(), matrixStack = [];
+
+  var rotPyramid = 0, rotCube = 0, lastTime = 0, timeNow = 0;
 
   var uTransform, uCamera, uSampler, aPosition, aTextureCoord;
 
@@ -39,11 +41,16 @@
   gl.enableVertexAttribArray(aTextureCoord);
 
   (function render(){
+
     requestAnimationFrame(render);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     mat4.identity(transformMatrix);
     mat4.translate(transformMatrix, transformMatrix, [-2, 0, -7]);
+
+    matrixStack.push(mat4.clone(transformMatrix));
+
+    mat4.rotate(transformMatrix, transformMatrix, rotPyramid * Math.PI / 180, [0, 1, 0]);
 
     gl.uniformMatrix4fv(uTransform, false, transformMatrix);
     gl.uniformMatrix4fv(uCamera, false, cameraMatrix);
@@ -59,7 +66,11 @@
 
     gl.drawArrays(gl.TRIANGLES, 0, pyramid.numItems);
 
+    transformMatrix = matrixStack.pop();
+
     mat4.translate(transformMatrix, transformMatrix, [4, 0, -1]);
+
+    mat4.rotate(transformMatrix, transformMatrix, rotCube * Math.PI / 180, [1, 1, 1]);
 
     gl.uniformMatrix4fv(uTransform, false, transformMatrix);
     gl.uniformMatrix4fv(uCamera, false, cameraMatrix);
@@ -76,6 +87,14 @@
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cube.vertexIndexBuffer);
 
     gl.drawElements(gl.TRIANGLES, cube.numItems, gl.UNSIGNED_SHORT, 0);
+
+    timeNow = new Date().getTime();
+    if(lastTime !== 0)
+    {
+      rotPyramid += (90 * (timeNow - lastTime)) / 1000;
+      rotCube -= (75 * (timeNow - lastTime)) / 1000;
+    }
+    lastTime = timeNow;
   })();
 
 })();
