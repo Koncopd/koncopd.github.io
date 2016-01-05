@@ -62,6 +62,6 @@ function initTexture(gl)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
     gl.bindTexture(gl.TEXTURE_2D, null);
   }
-  texture.image.src = './glass.gif';
+  texture.image.src = './texture.jpg';
   return texture;
 }
