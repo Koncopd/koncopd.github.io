@@ -96,19 +96,19 @@ function getPyramid(gl)
       textureCoord = [
         // Front face
         0, 0,
-        0.5, 0.5,
+        0.5, 1,
         1, 0,
         // Right face
         0, 0,
-        0.5, 0.5,
+        0.5, 1,
         1, 0,
         // Back face
         0, 0,
-        0.5, 0.5,
+        0.5, 1,
         1, 0,
         // Left face
         0, 0,
-        0.5, 0.5,
+        0.5, 1,
         1, 0
       ];
 
