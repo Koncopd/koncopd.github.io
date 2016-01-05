@@ -41,15 +41,7 @@ function initArrayBuffer(gl, data)
   return glBuffer;
 }
 
-function setAttributes3(gl, attrArray, bufferArray)
-{
-  attrArray.forEach(function(attr, i){
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufferArray[i]);
-    gl.vertexAttribPointer(attr, 3, gl.FLOAT, false, 0, 0);
-  });
-}
-
-function initTexture(gl)
+function initTexture(gl, src)
 {
   var texture = gl.createTexture();
   texture.image = new Image();
@@ -62,6 +54,6 @@ function initTexture(gl)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
     gl.bindTexture(gl.TEXTURE_2D, null);
   }
-  texture.image.src = './texture.jpg';
+  texture.image.src = src;
   return texture;
 }

@@ -16,11 +16,12 @@
   gl = initGL(canvas);
 
   pyramid = getPyramid(gl);
+  cube = getCube(gl);
 
   program = initShaderProgram(gl, vertexSource, fragmentSource);
   gl.useProgram(program);
 
-  pyrTexture = initTexture(gl);
+  pyrTexture = initTexture(gl, './texture.jpg');
 
   mat4.perspective(cameraMatrix, 0.785, canvas.width / canvas.height, 0.1, 100);
 
@@ -36,12 +37,12 @@
   gl.enableVertexAttribArray(aPosition);
   gl.enableVertexAttribArray(aTextureCoord);
 
-  mat4.translate(transformMatrix, transformMatrix, [-2, 0, -7]);
-
-
   (function render(){
     requestAnimationFrame(render);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    mat4.identity(transformMatrix);
+    mat4.translate(transformMatrix, transformMatrix, [-2, 0, -7]);
 
     gl.uniformMatrix4fv(uTransform, false, transformMatrix);
     gl.uniformMatrix4fv(uCamera, false, cameraMatrix);
@@ -56,6 +57,24 @@
     gl.uniform1i(uSampler, 0);
 
     gl.drawArrays(gl.TRIANGLES, 0, pyramid.numItems);
+
+    mat4.translate(transformMatrix, transformMatrix, [4, 0, 0]);
+
+    gl.uniformMatrix4fv(uTransform, false, transformMatrix);
+    gl.uniformMatrix4fv(uCamera, false, cameraMatrix);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, cube.vertexBuffer);
+    gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, cube.textureCoordBuffer);
+    gl.vertexAttribPointer(aTextureCoord, 2, gl.FLOAT, false, 0, 0)
+
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, pyrTexture);
+    gl.uniform1i(uSampler, 0);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cube.vertexIndexBuffer);
+
+    gl.drawElements(gl.TRIANGLES, cube.numItems, gl.UNSIGNED_SHORT, 0);
   })();
 
 })();
